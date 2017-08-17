@@ -1,0 +1,21 @@
+{
+  "name": "premises",
+  "version": "0.0.0",
+  "description": "Microservice that handles everything regarding premises",
+  "main": "./src/app/.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bunyan": "^1.8.12",
+    "grpc": "^1.4.1",
+    "jsonwebtoken": "^7.4.2",
+    "mongoose": "^4.11.7",
+    "restify": "^5.2.0",
+    "restify-cors-middleware": "^1.0.1",
+    "restify-jwt": "^0.4.0"
+  }
+}
