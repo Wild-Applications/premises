@@ -2,8 +2,8 @@ var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
   name : { type : String, required : true },
-  owner: { type : Number, required : true, index: true },
-  descr: { type : string, required: false }
+  owner: { type : Number, required : true, index: {unique: true} },
+  description: { type : String, required: false }
 }, {
   timestamps: true
 });
