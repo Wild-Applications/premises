@@ -48,6 +48,12 @@ server.addService(proto.premises.PremisesService.service, {
   },
   delete: function(call, callback){
     premisesHelper.delete(call, callback);
+  },
+  getOwner: function(call, callback){
+    premisesHelper.getOwner(call, callback);
+  },
+  getFromOwner: function(call, callback){
+    premisesHelper.getPremises(call, callback);
   }
 
 });

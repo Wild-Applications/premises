@@ -73,5 +73,24 @@ premises.delete = function(call, callback){
 
 }
 
+premises.getOwner = function(call, callback){
+  console.log(call.request.premisesId);
+  Premises.findById(call.request.premisesId, function(err, premises){
+    if(err){return callback(err, null)}
+    callback(null, {ownerId: premises.owner});
+  });
+}
+
+premises.getPremises = function(call, callback){
+  Premises.findOne({owner: call.request._id}, function(err, premises){
+    if(err){return callback(err, null)}
+    var stripPremises = {};
+    stripPremises._id = premises._id.toString();
+    stripPremises.name = premises.name;
+    stripPremises.description = premises.description;
+    return callback(null, stripPremises);
+  })
+}
+
 
 module.exports = premises;
