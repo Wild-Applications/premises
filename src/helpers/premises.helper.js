@@ -24,17 +24,22 @@ premises.get = function(call, callback){
         console.log(err);
         return callback({message:'err'}, null);
       }
-      var stripPremises = {};
-      stripPremises._id = premises._id.toString();
-      stripPremises.name = premises.name;
-      stripPremises.description = premises.description;
-      return callback(null, stripPremises);
+      if(premises){
+        var stripPremises = {};
+        stripPremises._id = premises._id.toString();
+        stripPremises.name = premises.name;
+        stripPremises.description = premises.description;
+        return callback(null, stripPremises);
+      }else{
+          return callback({message:JSON.stringify({message:"User hasn't created a premises yet", code:'0015'})}, null);
+      }
     })
   });
 }
 
 premises.create = function(call, callback){
   //validation handled by database
+  console.log(call.request);
   var newPremises = new Premises(call.request);
   console.log('created new premises');
   newPremises.save(function(err, result){
@@ -52,16 +57,15 @@ premises.update = function(call, callback){
     if(err){
       return callback({message:err},null);
     }
-    console.log('1');
-    console.log('owner: ' + JSON.stringify(call.request));
+
     Premises.findOneAndUpdate({ owner: token.sub}, call.request, function(err, premises){
-      console.log('2');
+
       if(err){
-        console.log('3');
+
         console.log(err);
         return callback({message:'err'}, null);
       }
-      console.log('4');
+      
       var stripPremises = {};
       stripPremises._id = premises._id.toString();
       return callback(null, stripPremises);
