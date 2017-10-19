@@ -10,6 +10,11 @@ service PremisesService {
   rpc delete ( DeleteRequest ) returns (Empty){}
   rpc getOwner (PremisesId) returns (OwnerId){}
   rpc getFromOwner (ID) returns (GetReply){}
+  rpc getPremises(PremisesId) returns (GetReply){}
+}
+
+service GuestService {
+  rpc get (ID) returns (GetReply){}
 }
 
 message Empty {

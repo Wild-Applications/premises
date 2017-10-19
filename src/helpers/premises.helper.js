@@ -65,7 +65,7 @@ premises.update = function(call, callback){
         console.log(err);
         return callback({message:'err'}, null);
       }
-      
+
       var stripPremises = {};
       stripPremises._id = premises._id.toString();
       return callback(null, stripPremises);
@@ -86,6 +86,17 @@ premises.getOwner = function(call, callback){
 }
 
 premises.getPremises = function(call, callback){
+  Premises.findOne({_id: call.request.premisesId}, function(err, premises){
+    if(err){return callback(err, null)}
+    var stripPremises = {};
+    stripPremises._id = premises._id.toString();
+    stripPremises.name = premises.name;
+    stripPremises.description = premises.description;
+    return callback(null, stripPremises);
+  })
+}
+
+premises.getFromOwner = function(call, callback){
   Premises.findOne({owner: call.request._id}, function(err, premises){
     if(err){return callback(err, null)}
     var stripPremises = {};

@@ -53,9 +53,18 @@ server.addService(proto.premises.PremisesService.service, {
     premisesHelper.getOwner(call, callback);
   },
   getFromOwner: function(call, callback){
+    premisesHelper.getFromOwner(call, callback);
+  },
+  getPremises: function(call, callback){
     premisesHelper.getPremises(call, callback);
   }
 
+});
+
+server.addService(proto.premises.GuestService.service, {
+  get: function(call, callback){
+    premisesGuestHelper.get(call, callback);
+  }
 });
 
 //Specify the IP and and port to start the grpc Server, no SSL in test environment
