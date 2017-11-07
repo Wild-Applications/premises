@@ -21,7 +21,6 @@ premises.get = function(call, callback){
     console.log(token.sub);
     Premises.findOne({ owner: token.sub}, function(err, premises){
       if(err){
-        console.log(err);
         return callback({message:'err'}, null);
       }
       if(premises){
@@ -31,7 +30,7 @@ premises.get = function(call, callback){
         stripPremises.description = premises.description;
         return callback(null, stripPremises);
       }else{
-          return callback({message:JSON.stringify({message:"User hasn't created a premises yet", code:'0015'})}, null);
+        return callback(null, null);
       }
     })
   });
