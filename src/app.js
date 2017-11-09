@@ -61,7 +61,6 @@ server.addService(proto.premises.PremisesService.service, {
   open: function(call, callback){
     premisesHelper.openPremises(call, callback);
   }
-
 });
 
 server.addService(proto.premises.GuestService.service, {
