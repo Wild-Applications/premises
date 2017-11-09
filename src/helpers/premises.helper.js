@@ -110,7 +110,7 @@ premises.getFromOwner = function(call, callback){
 premises.openPremises = function(call, callback){
   jwt.verify(call.metadata.get('authorization')[0], process.env.JWT_SECRET, function(err, token){
     if(err){
-      return callback({message:'Token invalid'},null);
+      return callback({message:'Token invalids'},null);
     }
 
     Premises.findOne({ owner: token.sub}, function(err, premises){
