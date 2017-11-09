@@ -170,6 +170,7 @@ premises.openPremises = function(call, callback){
             callback({message: JSON.stringify({code: '10000004', error:errors['0004']})}, null);
           }
         }, error => {
+          console.log(error);
           callback({message:JSON.stringify({code:'10000003', error:errors['0003']})},null);
         })
       }else{
