@@ -11,6 +11,13 @@ errors = require('../errors/errors.json');
 //var jwt = require('jsonwebtoken');
 //var tokenService = require('bleuapp-token-service').createTokenHandler('service.token', '50051');
 
+var grpc = require("grpc");
+var paymentDescriptor = grpc.load(__dirname + '/../proto/payment.proto').payment;
+var paymentClient = new paymentDescriptor.PaymentService('service.payment:1295', grpc.credentials.createInsecure());
+
+var menuDescriptor = grpc.load(__dirname + '/../proto/menu.proto').menu;
+var menuClient = new menuDescriptor.MenuService('service.menu:1295', grpc.credentials.createInsecure());
+
 var premises = {};
 
 premises.get = function(call, callback){
