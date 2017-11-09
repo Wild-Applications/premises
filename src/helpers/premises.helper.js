@@ -167,6 +167,7 @@ premises.openPremises = function(call, callback){
           if(allData[0] && allData[1].menu && allData[1].active){
             //premises can be opened
             premises.open = true;
+            console.log(premises);
             premises.save(function(err){
               if(err){
                 return callback({message:JSON.stringify({code:'10010003', error:errors['0003']})}, null);
