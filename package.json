@@ -1,4 +1,4 @@
-/*{
+{
   "name": "premises",
   "version": "0.0.0",
   "description": "Microservice that handles everything regarding premises",
@@ -18,4 +18,4 @@
     "restify-cors-middleware": "^1.0.1",
     "restify-jwt": "^0.4.0"
   }
-}*/
+}
