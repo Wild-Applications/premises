@@ -157,10 +157,6 @@ premises.openPremises = function(call, callback){
         requests[requests.length] = paymentCall(metadata);
         requests[requests.length] = menuCall(metadata);
         Promise.all(requests).then(allData => {
-          var returnObj = {};
-          returnObj.payment = allData[0];
-          returnObj.menu = allData[1].menu;
-          returnObj.active = allData[1].active;
           if(allData[0] && allData[1].menu && allData[1].active){
             //premises can be opened
             premises.open = true;
