@@ -2,5 +2,5 @@
   "0001": {"message": "Failed to connect to the database", "status": 500},
   "0002": {"message": "Premises doesn't exist", "status": 404},
   "0003": {"message": "Unable to open premises. Please try again.", "status": 500},
-  "0004": {"message": "Premises cannot be opened. Your account is not correctly configured. See your dashboard for more information", "status": 403},
+  "0004": {"message": "Premises cannot be opened. Your account is not correctly configured. See your dashboard for more information", "status": 403}
 }
