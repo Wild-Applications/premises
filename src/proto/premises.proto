@@ -12,6 +12,7 @@ service PremisesService {
   rpc getFromOwner (ID) returns (GetReply){}
   rpc getPremises(PremisesId) returns (GetReply){}
   rpc open (Empty) returns (Empty) {}
+  rpc close (Empty) returns (Empty){}
 }
 
 service GuestService {
