@@ -188,5 +188,21 @@ premises.openPremises = function(call, callback){
   });
 };
 
+premises.closePremises = function(call, callback){
+  jwt.verify(call.metadata.get('authorization')[0], process.env.JWT_SECRET, function(err, token){
+    if(err){
+      return callback({message:err},null);
+    }
+
+    Premises.findOneAndUpdate({ owner: token.sub}, {open: false}, function(err, premises){
+
+      if(err){
+        return callback({message:JSON.stringify({code:'10000005', error:errors['0005']})}, null);
+      }
+      return callback(null, {});
+    })
+  });
+}
+
 
 module.exports = premises;
