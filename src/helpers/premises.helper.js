@@ -154,8 +154,8 @@ premises.openPremises = function(call, callback){
           });
         }
         var requests = [];
-        requests[requests.length] = paymentCall(metadata);
-        requests[requests.length] = menuCall(metadata);
+        requests[requests.length] = paymentCall(call.metadata);
+        requests[requests.length] = menuCall(call.metadata);
         Promise.all(requests).then(allData => {
           if(allData[0] && allData[1].menu && allData[1].active){
             //premises can be opened
