@@ -3,7 +3,8 @@
 
 //imports
 var jwt = require('jsonwebtoken'),
-Premises = require('../models/premises.schema.js');
+Premises = require('../models/premises.schema.js'),
+errors = require('../errors/errors.json');
 
 
 
@@ -104,6 +105,83 @@ premises.getFromOwner = function(call, callback){
     stripPremises.description = premises.description;
     return callback(null, stripPremises);
   })
+}
+
+premises.openPremises = function(call, callback){
+  jwt.verify(call.metadata.get('authorization')[0], process.env.JWT_SECRET, function(err, token){
+    if(err){
+      return callback({message:err},null);
+    }
+
+    Premises.findOne({ owner: token.sub}, function(err, premises){
+
+      if(err){
+        console.log(err);
+        return callback({message:JSON.stringify({code:'10000001', error:errors['0001']})}, null);
+      }
+      if(premises){
+        //verify payment details exist
+        var paymentCall = function(metadata){
+          return new Promise(function(resolve, reject){
+            paymentClient.get({}, metadata, function(err, results){
+              if(err){return reject(err);}
+              if(results){
+                return resolve(true);
+              }
+              return resolve(false);
+            });
+          });
+        }
+        //verify menu exists and is active
+        var menuCall = function(metadata){
+          return new Promise(function(resolve, reject){
+            menuClient.getAll({}, metadata, function(err, results){
+                if(err){return reject(err)}
+                var hasActive = false;
+                var hasMenu = false;
+                console.log(results);
+                if(results.menus.length != 0){
+                  hasMenu = true;
+                  for(var menuKey in results.menus){
+                    if(results.menus[menuKey].active){
+                      hasActive = true;
+                      break;
+                    }
+                  }
+                }
+
+                return resolve({menu: hasMenu, active: hasActive});
+            });
+          });
+        }
+        var requests = [];
+        requests[requests.length] = paymentCall(metadata);
+        requests[requests.length] = menuCall(metadata);
+        Promise.all(requests).then(allData => {
+          var returnObj = {};
+          returnObj.payment = allData[0];
+          returnObj.menu = allData[1].menu;
+          returnObj.active = allData[1].active;
+          if(allData[0] && allData[1].menu && allData[1].active){
+            //premises can be opened
+            premises.open = true;
+            premises.save(function(err){
+              if(err){
+                return callback({message:JSON.stringify({code:'10010003', error:errors['0003']})}, null);
+              }
+              return callback(null, {});
+            })
+          }else{
+            callback({message: JSON.stringify({code: '10000004', error:errors['0004']})}, null);
+          }
+        }, error => {
+          callback({message:JSON.stringify({code:'10000003', error:errors['0003']})},null);
+        })
+      }else{
+        return callback({message: JSON.stringify({code:'10000002': error:errors['0002']})},null);
+      }
+    })
+  });
 }
 
 

@@ -57,6 +57,9 @@ server.addService(proto.premises.PremisesService.service, {
   },
   getPremises: function(call, callback){
     premisesHelper.getPremises(call, callback);
+  },
+  open: function(call, callback){
+    premisesHelper.openPremises(call, callback);
   }
 
 });
