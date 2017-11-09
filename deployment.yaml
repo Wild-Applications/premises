@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
       - name: premises
-        image: wildapplications/premises:test
+        image: wildapplications/premises:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 50051
