@@ -35,7 +35,7 @@ premises.get = function(call, callback){
       }
     })
   });
-}
+};
 
 premises.create = function(call, callback){
   //validation handled by database
@@ -50,7 +50,7 @@ premises.create = function(call, callback){
     }
     return callback(null, {_id: result._id.toString()});
   });
-}
+};
 
 premises.update = function(call, callback){
   jwt.verify(call.metadata.get('authorization')[0], process.env.JWT_SECRET, function(err, token){
@@ -71,11 +71,11 @@ premises.update = function(call, callback){
       return callback(null, stripPremises);
     })
   });
-}
+};
 
 premises.delete = function(call, callback){
 
-}
+};
 
 premises.getOwner = function(call, callback){
   console.log(call.request.premisesId);
@@ -83,7 +83,7 @@ premises.getOwner = function(call, callback){
     if(err){return callback(err, null)}
     callback(null, {ownerId: premises.owner});
   });
-}
+};
 
 premises.getPremises = function(call, callback){
   Premises.findOne({_id: call.request.premisesId}, function(err, premises){
@@ -94,7 +94,7 @@ premises.getPremises = function(call, callback){
     stripPremises.description = premises.description;
     return callback(null, stripPremises);
   })
-}
+};
 
 premises.getFromOwner = function(call, callback){
   Premises.findOne({owner: call.request._id}, function(err, premises){
@@ -105,7 +105,7 @@ premises.getFromOwner = function(call, callback){
     stripPremises.description = premises.description;
     return callback(null, stripPremises);
   })
-}
+};
 
 premises.openPremises = function(call, callback){
   jwt.verify(call.metadata.get('authorization')[0], process.env.JWT_SECRET, function(err, token){
@@ -177,7 +177,7 @@ premises.openPremises = function(call, callback){
       }
     })
   });
-}
+};
 
 
 module.exports = premises;
