@@ -36,6 +36,7 @@ premises.get = function(call, callback){
         stripPremises._id = premises._id.toString();
         stripPremises.name = premises.name;
         stripPremises.description = premises.description;
+        stripPremises.open = premises.open;
         return callback(null, stripPremises);
       }else{
         return callback(null, null);
@@ -99,6 +100,7 @@ premises.getPremises = function(call, callback){
     stripPremises._id = premises._id.toString();
     stripPremises.name = premises.name;
     stripPremises.description = premises.description;
+    stripPremises.open = premises.open;
     return callback(null, stripPremises);
   })
 };
@@ -110,6 +112,7 @@ premises.getFromOwner = function(call, callback){
     stripPremises._id = premises._id.toString();
     stripPremises.name = premises.name;
     stripPremises.description = premises.description;
+    stripPremises.open = premises.open;
     return callback(null, stripPremises);
   })
 };
