@@ -6,8 +6,7 @@ const premisesHelper = require('./helpers/premises.helper.js');
 const proto = grpc.load(__dirname + '/proto/premises.proto');
 const server = new grpc.Server();
 const mongoose = require('mongoose');
-const dbUrl = "mongodb://wildappsadminmw:90nyin2va6B3IFoS@clustermain-shard-00-00-gexas.mongodb.net:27017,clustermain-shard-00-01-gexas.mongodb.net:27017,clustermain-shard-00-02-gexas.mongodb.net:27017/PREMISES?ssl=true&replicaSet=ClusterMain-shard-0&authSource=admin";
-
+const dbUrl = "mongodb://" + process.env.DB_USER + ":" + process.env.DB_PASS + "@" + process.env.DB_HOST;
 mongoose.connect(dbUrl);
 
 // CONNECTION EVENTS
@@ -78,3 +77,11 @@ server.bind('0.0.0.0:50051', grpc.ServerCredentials.createInsecure());
 //Start the server
 server.start();
 console.log('gRPC server running on port: 50051');
+
+
+process.on('SIGTERM', function onSigterm () {
+  console.info('Got SIGTERM. Graceful shutdown start', new Date().toISOString())
+  server.tryShutdown(()=>{
+    process.exit(1);
+  })
+});

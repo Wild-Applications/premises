@@ -46,17 +46,20 @@ premises.get = function(call, callback){
 };
 
 premises.create = function(call, callback){
-  //validation handled by database
-  console.log(call.request);
-  var newPremises = new Premises(call.request);
-  console.log('created new premises');
-  newPremises.save(function(err, result){
-    console.log('saved new premises');
+  jwt.verify(call.metadata.get('authorization')[0], process.env.JWT_SECRET, function(err, token){
     if(err){
-      console.log(err);
-      return callback({message:'err'},null);
+      return callback({message:err},null);
     }
-    return callback(null, {_id: result._id.toString()});
+    //validation handled by database
+    call.request.owner = token.sub;
+    var newPremises = new Premises(call.request);
+    newPremises.save(function(err, result){
+      if(err){
+        console.log(err);
+        return callback({message:'err'},null);
+      }
+      return callback(null, {_id: result._id.toString()});
+    });
   });
 };
 
