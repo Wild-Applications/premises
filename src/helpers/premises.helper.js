@@ -24,12 +24,11 @@ premises.get = function(call, callback){
   //protected route so verify token;
   jwt.verify(call.metadata.get('authorization')[0], process.env.JWT_SECRET, function(err, token){
     if(err){
-      return callback({message:err},null);
+      return callback(errors['0006'],null);
     }
-    console.log(token.sub);
     Premises.findOne({ owner: token.sub}, function(err, premises){
       if(err){
-        return callback({message:'err'}, null);
+        return callback(errors['0001'], null);
       }
       if(premises){
         var stripPremises = {};
@@ -39,7 +38,7 @@ premises.get = function(call, callback){
         stripPremises.open = premises.open;
         return callback(null, stripPremises);
       }else{
-        return callback(null, null);
+        return callback(errors['0002'], null);
       }
     })
   });
@@ -48,15 +47,14 @@ premises.get = function(call, callback){
 premises.create = function(call, callback){
   jwt.verify(call.metadata.get('authorization')[0], process.env.JWT_SECRET, function(err, token){
     if(err){
-      return callback({message:err},null);
+      return callback(errors['0006'],null);
     }
     //validation handled by database
     call.request.owner = token.sub;
     var newPremises = new Premises(call.request);
     newPremises.save(function(err, result){
       if(err){
-        console.log(err);
-        return callback({message:'err'},null);
+        return callback(errors['0007'],null);
       }
       return callback(null, {_id: result._id.toString()});
     });
@@ -66,15 +64,13 @@ premises.create = function(call, callback){
 premises.update = function(call, callback){
   jwt.verify(call.metadata.get('authorization')[0], process.env.JWT_SECRET, function(err, token){
     if(err){
-      return callback({message:err},null);
+      return callback(errors['0006'],null);
     }
 
     Premises.findOneAndUpdate({ owner: token.sub}, call.request, function(err, premises){
 
       if(err){
-
-        console.log(err);
-        return callback({message:'err'}, null);
+        return callback(errors['0001'], null);
       }
 
       var stripPremises = {};
@@ -89,16 +85,15 @@ premises.delete = function(call, callback){
 };
 
 premises.getOwner = function(call, callback){
-  console.log(call.request.premisesId);
   Premises.findById(call.request.premisesId, function(err, premises){
-    if(err){return callback(err, null)}
+    if(err){return callback(errors['0009'], null)}
     callback(null, {ownerId: premises.owner});
   });
 };
 
 premises.getPremises = function(call, callback){
   Premises.findOne({_id: call.request.premisesId}, function(err, premises){
-    if(err){return callback(err, null)}
+    if(err){return callback(errors['0010'], null)}
     var stripPremises = {};
     stripPremises._id = premises._id.toString();
     stripPremises.name = premises.name;
@@ -110,7 +105,7 @@ premises.getPremises = function(call, callback){
 
 premises.getFromOwner = function(call, callback){
   Premises.findOne({owner: call.request._id}, function(err, premises){
-    if(err){return callback(err, null)}
+    if(err){return callback(errors['0010'], null)}
     var stripPremises = {};
     stripPremises._id = premises._id.toString();
     stripPremises.name = premises.name;
@@ -123,13 +118,12 @@ premises.getFromOwner = function(call, callback){
 premises.openPremises = function(call, callback){
   jwt.verify(call.metadata.get('authorization')[0], process.env.JWT_SECRET, function(err, token){
     if(err){
-      return callback({message:'Token invalids'},null);
+      return callback(errors['0006'],null);
     }
 
     Premises.findOne({ owner: token.sub}, function(err, premises){
       if(err){
-        console.log(err);
-        return callback({message:JSON.stringify({code:'10000001', error:errors['0001']})}, null);
+        return callback(errors['0003'], null);
       }
       if(premises){
         //verify payment details exist
@@ -151,7 +145,6 @@ premises.openPremises = function(call, callback){
                 if(err){return reject(err)}
                 var hasActive = false;
                 var hasMenu = false;
-                console.log(results);
                 if(results.menus.length != 0){
                   hasMenu = true;
                   for(var menuKey in results.menus){
@@ -173,22 +166,21 @@ premises.openPremises = function(call, callback){
           if(allData[0] && allData[1].menu && allData[1].active){
             //premises can be opened
             premises.open = true;
-            console.log(premises);
             premises.save(function(err){
               if(err){
-                return callback({message:JSON.stringify({code:'10010003', error:errors['0003']})}, null);
+                return callback(errors['0003'], null);
               }
               return callback(null, {});
             })
           }else{
-            callback({message: JSON.stringify({code: '10000004', error:errors['0004']})}, null);
+            return callback(errors['0004'], null);
           }
         }, error => {
           console.log(error);
-          callback({message:JSON.stringify({code:'10000003', error:errors['0003']})},null);
+          callback(errors['0003'],null);
         })
       }else{
-        return callback({message: JSON.stringify({code:'10000002', error:errors['0002']})},null);
+        return callback(errors['0002'],null);
       }
     })
   });
@@ -197,13 +189,13 @@ premises.openPremises = function(call, callback){
 premises.closePremises = function(call, callback){
   jwt.verify(call.metadata.get('authorization')[0], process.env.JWT_SECRET, function(err, token){
     if(err){
-      return callback({message:err},null);
+      return callback(errors['0006'],null);
     }
 
     Premises.findOneAndUpdate({ owner: token.sub}, {open: false}, function(err, premises){
 
       if(err){
-        return callback({message:JSON.stringify({code:'10000005', error:errors['0005']})}, null);
+        return callback(errors['0005'], null);
       }
       return callback(null, {});
     })

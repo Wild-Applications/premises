@@ -11,11 +11,14 @@
   "license": "ISC",
   "dependencies": {
     "bunyan": "^1.8.12",
-    "grpc": "^1.4.1",
-    "jsonwebtoken": "^7.4.2",
-    "mongoose": "^4.11.7",
-    "restify": "^5.2.0",
-    "restify-cors-middleware": "^1.0.1",
-    "restify-jwt": "^0.4.0"
+    "grpc": "1.7.2",
+    "jsonwebtoken": "8.1.0",
+    "mongoose": "^4.13.5",
+    "restify": "6.3.4",
+    "restify-cors-middleware": "1.0.1",
+    "restify-errors": "5.0.0",
+    "restify-jwt": "^0.4.0",
+    "restify-router": "0.5.0",
+    "restify-plugins": "1.6.0"
   }
 }

@@ -1,7 +1,12 @@
 {
-  "0001": {"message": "Failed to connect to the database", "status": 500},
-  "0002": {"message": "Premises doesn't exist", "status": 404},
-  "0003": {"message": "Unable to open premises. Please try again.", "status": 500},
-  "0004": {"message": "Premises cannot be opened. Your account is not correctly configured. See your dashboard for more information", "status": 403},
-  "0005": {"message": "Premises could not be closed. Please try again.", "status": 500}
+  "0001": {"message": "Failed to connect to the database", "code": 500},
+  "0002": {"message": "Premises doesn't exist", "code": 404},
+  "0003": {"message": "Unable to open premises. Please try again.", "code": 500},
+  "0004": {"message": "Premises cannot be opened. Your account is not correctly configured. See your dashboard for more information", "code": 403},
+  "0005": {"message": "Premises could not be closed. Please try again.", "code": 500},
+  "0006": {"message": "Invalid permissions", "code": 401},
+  "0007": {"message": "Unable to create new premises", "code": 500},
+  "0008": {"message": "Unable to update premises", "code": 500},
+  "0009": {"message": "Unable to retrieve premises owner", "code": 500},
+  "0010": {"message": "Unable to get premises", "code": 500}
 }
