@@ -66,12 +66,14 @@ premises.create = function(call, callback){
 premises.update = function(call, callback){
   jwt.verify(call.metadata.get('authorization')[0], process.env.JWT_SECRET, function(err, token){
     if(err){
+      console.log('update rrr', err);
       return callback(errors['0006'],null);
     }
 
     Premises.findOneAndUpdate({ owner: token.sub}, call.request, function(err, premises){
 
       if(err){
+        console.log('1st', err);
         return callback(errors['0001'], null);
       }
 
