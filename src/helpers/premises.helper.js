@@ -47,6 +47,7 @@ premises.get = function(call, callback){
 premises.create = function(call, callback){
   jwt.verify(call.metadata.get('authorization')[0], process.env.JWT_SECRET, function(err, token){
     if(err){
+      console.log('error here');
       return callback(errors['0006'],null);
     }
     //validation handled by database
@@ -54,6 +55,7 @@ premises.create = function(call, callback){
     var newPremises = new Premises(call.request);
     newPremises.save(function(err, result){
       if(err){
+        console.log('actually here ', err);
         return callback(errors['0007'],null);
       }
       return callback(null, {_id: result._id.toString()});
