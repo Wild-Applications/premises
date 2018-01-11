@@ -46,6 +46,7 @@ message CreateReply {
 message UpdateRequest {
   string _id = 1;
   string name = 2;
+  bool open = 4;
   string description = 3;
 }
 
