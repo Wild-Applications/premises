@@ -44,9 +44,9 @@ message CreateReply {
 }
 
 message UpdateRequest {
-  string name = 2;
-  bool open = 4;
-  string description = 3;
+  optional string name = 2;
+  optional bool open = 4;
+  optional string description = 3;
 }
 
 message DeleteRequest{
