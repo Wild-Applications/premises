@@ -69,7 +69,8 @@ premises.update = function(call, callback){
       console.log('update rrr', err);
       return callback(errors['0006'],null);
     }
-
+    console.log(call.request);
+    
     Premises.findOneAndUpdate({ owner: token.sub}, call.request, function(err, premises){
 
       if(err){
