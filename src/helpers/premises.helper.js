@@ -142,6 +142,7 @@ premises.openPremises = function(call, callback){
 
     Premises.findOne({ owner: token.sub}, function(err, premises){
       if(err){
+        console.log('1 ', err);
         return callback(errors['0003'], null);
       }
       if(premises){
@@ -195,10 +196,11 @@ premises.openPremises = function(call, callback){
             return callback(errors['0004'], null);
           }
         }, error => {
-          console.log(error);
+          console.log('2', error);
           callback(errors['0003'],null);
         })
       }else{
+        console.log('3');
         return callback(errors['0002'],null);
       }
     })
