@@ -74,7 +74,9 @@ premises.update = function(call, callback){
 
     if(call.metadata.get('present')){
       //we have been passed information about what should be updated
-      var present = call.metadata.get('present').split(',');
+      var presentString = call.metadata.get('present');
+      console.log(presentString);
+      var present = presentString.split(',');
       for(var item in present){
         objToSave[present[item]] = call.request[present[item]];
       }
