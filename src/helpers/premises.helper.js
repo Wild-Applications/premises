@@ -69,9 +69,21 @@ premises.update = function(call, callback){
       console.log('update rrr', err);
       return callback(errors['0006'],null);
     }
-    console.log(call.request);
-    
-    Premises.findOneAndUpdate({ owner: token.sub}, call.request, function(err, premises){
+
+    var objToSave = {};
+
+    if(call.metadata.get('present')){
+      //we have been passed information about what should be updated
+      var present = call.metadata.get('present');
+      for(var item in present){
+        objToSave[present[item]] = call.request[present[item]];
+      }
+    }else{
+      objToSave = call.request;
+    }
+    console.log(objToSave);
+
+    Premises.findOneAndUpdate({ owner: token.sub}, objToSave, function(err, premises){
 
       if(err){
         console.log('1st', err);
